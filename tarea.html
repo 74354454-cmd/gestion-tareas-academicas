@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestor de Tareas Académicas - Renzo</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; }
+        .container { max-width: 500px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        input, button { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background-color: #28a745; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        .error { color: red; font-size: 0.9em; margin-bottom: 10px; display: none; }
+        ul { list-style: none; padding: 0; }
+        li { background: #eee; margin: 5px 0; padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🎓 Mis Tareas Académicas</h2>
+    
+    <div id="mensaje-error" class="error"></div>
+
+    <input type="text" id="titulo" placeholder="Nombre de la tarea">
+    <input type="date" id="fecha">
+    <input type="number" id="prioridad" placeholder="Prioridad (1-5)" min="1" max="5">
+    <button onclick="agregarTarea()">Agregar Tarea</button>
+
+    <h3>Lista de Pendientes</h3>
+    <ul id="lista-tareas"></ul>
+</div>
+
+<script>
+    let tareas = [];
+
+    function agregarTarea() {
+        const titulo = document.getElementById('titulo').value;
+        const fecha = document.getElementById('fecha').value;
+        const prioridad = document.getElementById('prioridad').value;
+        const errorDiv = document.getElementById('mensaje-error');
+
+        // IMPLEMENTACIÓN DE MANEJO DE EXCEPCIONES (Robustez)
+        try {
+            errorDiv.style.display = 'none';
+
+            if (!titulo || !fecha || !prioridad) {
+                throw "Todos los campos son obligatorios.";
+            }
+            if (prioridad < 1 || prioridad > 5) {
+                throw "La prioridad debe estar entre 1 y 5.";
+            }
+
+            // Crear objeto (Clean Code: Estructura clara)
+            const nuevaTarea = { titulo, fecha, prioridad };
+            tareas.push(nuevaTarea);
+            
+            actualizarLista();
+            limpiarCampos();
+
+        } catch (error) {
+            errorDiv.innerText = "❌ Error: " + error;
+            errorDiv.style.display = 'block';
+        }
+    }
+
+    function actualizarLista() {
+        const lista = document.getElementById('lista-tareas');
+        lista.innerHTML = "";
+        tareas.forEach(t => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span><strong>${t.titulo}</strong> - ${t.fecha}</span> <span>Prio: ${t.prioridad}</span>`;
+            lista.appendChild(li);
+        });
+    }
+
+    function limpiarCampos() {
+        document.getElementById('titulo').value = "";
+        document.getElementById('fecha').value = "";
+        document.getElementById('prioridad').value = "";
+    }
+</script>
+
+</body>
+</html>
