@@ -17,3 +17,6 @@
 ## 🚀 Instalación y Uso
 1. Clonar el repositorio.
 2. Ejecutar el comando: `python gestor_tareas.py`
+3. # 🌐 Demo en Vivo
+Puedes probar la ejecución de la aplicación aquí: 
+[https://74354454-cmd.github.io/gestion-tareas-academicas/]
